@@ -188,6 +188,47 @@
         @media (max-width: 768px) { .tools-grid { grid-template-columns: 1fr; } .category-header { flex-direction: column; align-items: flex-start; } .category-tools-count { margin-left: 0; } .ai-assistant { right: 20px; width: 50px; height: 50px; font-size: 1.5rem; } .back-to-top { right: 80px; } }
         .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+      /* ========== QUICK CATEGORIES - FIXED WITH PROPER BOXES ========== */
+.quick-categories {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0 2.5rem;
+    padding: 0.5rem;
+}
+
+.quick-category-btn {
+    padding: 0.85rem 1.8rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    color: #a1a1aa;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: inherit;
+}
+
+.quick-category-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #8b5cf6;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.quick-category-btn.active {
+    background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
     </style>
 
 </head>
