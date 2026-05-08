@@ -1,0 +1,2321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToolVerse - Solve Everyday Problems with Smart Tools</title>
+    <meta name="description" content="One platform for creators, students, businesses, developers, teachers, ministries, and everyday users.">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========================================
+           CSS VARIABLES & RESET
+           ======================================== */
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a25;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-hover: rgba(255, 255, 255, 0.08);
+            
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            
+            --accent-primary: #8b5cf6;
+            --accent-secondary: #a78bfa;
+            --accent-glow: rgba(139, 92, 246, 0.3);
+            
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 20px rgba(139, 92, 246, 0.2);
+            
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--glass-border);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition-fast);
+        }
+        
+        ul {
+            list-style: none;
+        }
+        
+        button {
+            font-family: inherit;
+            border: none;
+            background: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        input, select, textarea {
+            font-family: inherit;
+        }
+        
+        /* ========================================
+           UTILITY CLASSES
+           ======================================== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .badge-new {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+        }
+        
+        .badge-trending {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+        
+        .badge-popular {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .section-subtitle {
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+        
+        /* ========================================
+           NAVBAR
+           ======================================== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+        
+        .navbar.scrolled {
+            padding: 0.75rem 0;
+        }
+        
+        .navbar-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+        
+        .navbar-logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .navbar-nav a {
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+        
+        .navbar-nav a:hover,
+        .navbar-nav a.active {
+            color: var(--text-primary);
+        }
+        
+        .navbar-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            transition: var(--transition);
+        }
+        
+        .navbar-nav a:hover::after {
+            width: 100%;
+        }
+        
+        /* Mega Menu Dropdown */
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            min-width: 600px;
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .dropdown-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        
+        .dropdown-item {
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        .dropdown-item:hover {
+            background: var(--glass-hover);
+            color: var(--text-primary);
+        }
+        
+        .dropdown-item-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--glass-bg);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        
+        .dropdown-item-text h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .dropdown-item-text p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            padding: 10px;
+            background: var(--glass-bg);
+            border-radius: var(--radius-sm);
+        }
+        
+        .mobile-menu-btn span {
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+        
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+        
+        /* ========================================
+           SIDEBAR
+           ======================================== */
+        .sidebar {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 280px;
+            height: calc(100vh - 80px);
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--glass-border);
+            overflow-y: auto;
+            z-index: 900;
+            transform: translateX(-100%);
+            transition: var(--transition);
+        }
+        
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        
+        .sidebar-toggle {
+            position: fixed;
+            left: 20px;
+            top: 90px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            z-index: 950;
+            box-shadow: var(--shadow-glow);
+            transition: var(--transition);
+        }
+        
+        .sidebar-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
+        }
+        
+        .sidebar-content {
+            padding: 1.5rem;
+        }
+        
+        .sidebar-search {
+            margin-bottom: 1.5rem;
+        }
+        
+        .sidebar-search input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            transition: var(--transition);
+        }
+        
+        .sidebar-search input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+        
+        .sidebar-category {
+            margin-bottom: 1rem;
+        }
+        
+        .sidebar-category-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            background: var(--glass-bg);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .sidebar-category-header:hover {
+            background: var(--glass-hover);
+        }
+        
+        .sidebar-category-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        .sidebar-category-icon {
+            font-size: 1.25rem;
+        }
+        
+        .sidebar-category-arrow {
+            transition: var(--transition);
+            font-size: 0.75rem;
+        }
+        
+        .sidebar-category.expanded .sidebar-category-arrow {
+            transform: rotate(180deg);
+        }
+        
+        .sidebar-category-tools {
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .sidebar-category.expanded .sidebar-category-tools {
+            max-height: 500px;
+            padding-top: 0.5rem;
+        }
+        
+        .sidebar-tool-link {
+            display: block;
+            padding: 0.5rem 1rem 0.5rem 2.75rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition-fast);
+        }
+        
+        .sidebar-tool-link:hover {
+            color: var(--text-primary);
+            background: var(--glass-hover);
+        }
+        
+        /* ========================================
+           HERO SECTION
+           ======================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 20px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.1), transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(167, 139, 250, 0.08), transparent 50%),
+                        radial-gradient(circle at 40% 80%, rgba(139, 92, 246, 0.05), transparent 50%);
+            animation: heroGlow 20s ease-in-out infinite;
+        }
+        
+        @keyframes heroGlow {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(2%, 2%); }
+            66% { transform: translate(-2%, -2%); }
+        }
+        
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(167, 139, 250, 0.1));
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 30px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Search Bar */
+        .search-container {
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            position: relative;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            transition: var(--transition);
+        }
+        
+        .search-bar:focus-within {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
+        }
+        
+        .search-bar input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.125rem;
+            outline: none;
+        }
+        
+        .search-bar input::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .search-bar button {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+        
+        .search-bar button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+        }
+        
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin-top: 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .search-results.active {
+            display: block;
+        }
+        
+        .search-result-item {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            transition: var(--transition-fast);
+            cursor: pointer;
+        }
+        
+        .search-result-item:hover {
+            background: var(--glass-hover);
+        }
+        
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .search-result-item h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .search-result-item p {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        .search-result-item .category {
+            display: inline-block;
+            padding: 2px 8px;
+            background: var(--accent-glow);
+            color: var(--accent-secondary);
+            border-radius: 4px;
+            font-size: 0.625rem;
+            margin-top: 0.5rem;
+        }
+        
+        .no-results {
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+        
+        /* Quick Categories */
+        .quick-categories {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 3rem;
+        }
+        
+        .quick-category-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .quick-category-btn:hover {
+            background: var(--glass-hover);
+            border-color: var(--accent-primary);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+        
+        .quick-category-btn.active {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-color: transparent;
+            color: white;
+        }
+        
+        /* Hero Stats */
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+        
+        .hero-stat {
+            text-align: center;
+        }
+        
+        .hero-stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-gradient;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        /* ========================================
+           TOOL CARDS
+           ======================================== */
+        .tools-section {
+            padding: 80px 0;
+        }
+        
+        .category-section {
+            margin-bottom: 100px;
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+        }
+        
+        .category-info h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .category-info p {
+            color: var(--text-secondary);
+        }
+        
+        .category-tools-count {
+            margin-left: auto;
+            padding: 0.5rem 1rem;
+            background: var(--glass-bg);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .tool-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+        }
+        
+        .tool-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .tool-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .tool-card-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--glass-hover);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .tool-card-badges {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .tool-card-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tool-card-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            min-height: 40px;
+        }
+        
+        .tool-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .tool-card-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .tool-card-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .tool-card-btn {
+            padding: 0.625rem 1.25rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+        
+        .tool-card-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+        
+        /* Featured & Trending Sections */
+        .featured-section,
+        .trending-section,
+        .recent-section {
+            padding: 80px 0;
+            background: var(--bg-secondary);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+        }
+        
+        .section-header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .section-header-left h2 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .section-header-left p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        .view-all-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .view-all-btn:hover {
+            background: var(--glass-hover);
+            border-color: var(--accent-primary);
+        }
+        
+        /* ========================================
+           FOOTER
+           ======================================== */
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--glass-border);
+            padding: 80px 0 30px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-brand {
+            max-width: 350px;
+        }
+        
+        .footer-brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-brand-logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .footer-brand p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .footer-social a:hover {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-color: transparent;
+            transform: translateY(-3px);
+        }
+        
+        .footer-column h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            color: var(--text-primary);
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            transition: var(--transition-fast);
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-primary);
+            padding-left: 5px;
+        }
+        
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .footer-bottom p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+        
+        .footer-bottom-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .footer-bottom-links a {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            transition: var(--transition-fast);
+        }
+        
+        .footer-bottom-links a:hover {
+            color: var(--text-primary);
+        }
+        
+        /* ========================================
+           FLOATING ELEMENTS
+           ======================================== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            z-index: 990;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: var(--transition);
+            box-shadow: var(--shadow-glow);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+        }
+        
+        .ai-assistant {
+            position: fixed;
+            bottom: 30px;
+            right: 100px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            z-index: 990;
+            box-shadow: var(--shadow-glow);
+            animation: pulse 2s ease-in-out infinite;
+            cursor: pointer;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+            50% { box-shadow: 0 0 0 15px rgba(139, 92, 246, 0); }
+        }
+        
+        .ai-assistant:hover {
+            transform: scale(1.1);
+        }
+        
+        /* ========================================
+           AD PLACEMENTS
+           ======================================== */
+        .ad-banner {
+            width: 100%;
+            max-width: 728px;
+            height: 90px;
+            background: var(--glass-bg);
+            border: 2px dashed var(--glass-border);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem auto;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+        
+        .ad-sidebar {
+            width: 100%;
+            height: 250px;
+            background: var(--glass-bg);
+            border: 2px dashed var(--glass-border);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+        
+        /* ========================================
+           RESPONSIVE DESIGN
+           ======================================== */
+        @media (max-width: 1200px) {
+            .dropdown-menu {
+                min-width: 400px;
+            }
+            
+            .dropdown-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .navbar-nav {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            /* Mobile Menu */
+            .mobile-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: var(--bg-primary);
+                z-index: 1001;
+                padding: 80px 20px;
+                overflow-y: auto;
+                transform: translateX(100%);
+                transition: var(--transition);
+            }
+            
+            .mobile-menu.active {
+                transform: translateX(0);
+            }
+            
+            .mobile-menu-content {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .mobile-menu a {
+                padding: 1rem;
+                background: var(--glass-bg);
+                border-radius: var(--radius-md);
+                font-size: 1.125rem;
+                font-weight: 600;
+            }
+            
+            .sidebar {
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1002;
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .sidebar-toggle {
+                top: 80px;
+                left: 10px;
+            }
+            
+            .dropdown-menu {
+                min-width: 100%;
+                left: 0;
+                transform: none;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-stats {
+                gap: 2rem;
+            }
+            
+            .hero-stat-value {
+                font-size: 2rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .category-tools-count {
+                margin-left: 0;
+            }
+            
+            .quick-categories {
+                gap: 0.5rem;
+            }
+            
+            .quick-category-btn {
+                padding: 0.625rem 1rem;
+                font-size: 0.75rem;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-bottom-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .ai-assistant {
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+            
+            .back-to-top {
+                right: 80px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.25rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .search-bar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .search-bar button {
+                width: 100%;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+        
+        /* ========================================
+           LOADING & ANIMATIONS
+           ======================================== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .tool-card.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- ========================================
+         NAVBAR
+         ======================================== -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="#" class="navbar-logo">
+                    <div class="navbar-logo-icon">🛠️</div>
+                    <span>ToolVerse</span>
+                </a>
+                
+                <div class="navbar-nav">
+                    <a href="#hero" class="active">Home</a>
+                    <a href="#all-tools">All Tools</a>
+                    <a href="#featured">AI Tools</a>
+                    
+                    <div class="dropdown">
+                        <a href="#categories">Categories ▾</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-grid">
+                                <a href="#academic" class="dropdown-item">
+                                    <div class="dropdown-item-icon">🎓</div>
+                                    <div class="dropdown-item-text">
+                                        <h4>Academic</h4>
+                                        <p>Research tools</p>
+                                    </div>
+                                </a>
+                                <a href="#students" class="dropdown-item">
+                                    <div class="dropdown-item-icon">📚</div>
+                                    <div class="dropdown-item-text">
+                                        <h4>Students</h4>
+                                        <p>Study helpers</p>
+                                    </div>
+                                </a>
+                                <a href="#teachers" class="dropdown-item">
+                                    <div class="dropdown-item-icon">👩‍🏫</div>
+                                    <div class="dropdown-item-text">
+                                        <h4>Teachers</h4>
+                                        <p>Teaching aids</p>
+                                    </div>
+                                </a>
+                                <a href="#creators" class="dropdown-item">
+                                    <div class="dropdown-item-icon">🎥</div>
+                                    <div class="dropdown-item-text">
+                                        <h4>Content Creators</h4>
+                                        <p>Social media tools</p>
+                                    </div>
+                                </a>
+                                <a href="#job-seekers" class="dropdown-item">
+                                    <div class="dropdown-item-icon">💼</div>
+                                    <div class="dropdown-item-text">
+                                        <h4>Job Seekers</h4>
+                                        <p>Career tools</p>
+                                    </div>
+                                </a>
+                                <a href="#developers" class="dropdown-item">
+                                    <div class="dropdown-item-icon">🧑‍💻</div>
+                                    <div class="dropdown-item-text">
+                                        <h4>Developers</h4>
+                                        <p>Code utilities</p>
+                                    </div>
+                                </a>
+                                <a href="#business" class="dropdown-item">
+                                    <div class="dropdown-item-icon">🧑‍💼</div>
+                                    <div class="dropdown-item-text">
+                                        <h4>Business</h4>
+                                        <p>Company tools</p>
+                                    </div>
+                                </a>
+                                <a href="#designers" class="dropdown-item">
+                                    <div class="dropdown-item-icon">🎨</div>
+                                    <div class="dropdown-item-text">
+                                        <h4>Designers</h4>
+                                        <p>Creative tools</p>
+                                    </div>
+                                </a>
+                                <a href="#social-media" class="dropdown-item">
+                                    <div class="dropdown-item-icon">📱</div>
+                                    <div class="dropdown-item-text">
+                                        <h4>Social Media</h4>
+                                        <p>Marketing tools</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="#utilities">Utilities</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="container">
+            <div class="mobile-menu-content">
+                <a href="#hero">🏠 Home</a>
+                <a href="#all-tools">📋 All Tools</a>
+                <a href="#featured">🤖 AI Tools</a>
+                <a href="#categories">📂 Categories</a>
+                <a href="#utilities">🛠️ Utilities</a>
+                <a href="#about">ℹ️ About</a>
+                <a href="#contact">📧 Contact</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ========================================
+         SIDEBAR
+         ======================================== -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+            <div class="sidebar-search">
+                <input type="text" placeholder="Search tools..." id="sidebarSearch">
+            </div>
+            
+            <!-- Sidebar categories will be populated by JavaScript -->
+            <div id="sidebarCategories"></div>
+        </div>
+    </aside>
+    
+    <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+    
+    <!-- ========================================
+         HERO SECTION
+         ======================================== -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">✨ 150+ Free Tools Available</div>
+            <h1 class="hero-title">Solve Everyday Problems with <span class="text-gradient">Smart Tools</span></h1>
+            <p class="hero-subtitle">One platform for creators, students, businesses, developers, teachers, ministries, and everyday users.</p>
+            
+            <div class="search-container">
+                <div class="search-bar">
+                    <span>🔍</span>
+                    <input type="text" placeholder="Search for tools..." id="mainSearch">
+                    <button>Search</button>
+                </div>
+                <div class="search-results" id="searchResults"></div>
+            </div>
+            
+            <div class="quick-categories">
+                <button class="quick-category-btn active" data-category="all">All Tools</button>
+                <button class="quick-category-btn" data-category="academic">🎓 Academic</button>
+                <button class="quick-category-btn" data-category="students">📚 Students</button>
+                <button class="quick-category-btn" data-category="creators">🎥 Creators</button>
+                <button class="quick-category-btn" data-category="developers">🧑‍💻 Developers</button>
+                <button class="quick-category-btn" data-category="business">💼 Business</button>
+            </div>
+            
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-value">150+</div>
+                    <div class="hero-stat-label">Free Tools</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">12</div>
+                    <div class="hero-stat-label">Categories</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">1M+</div>
+                    <div class="hero-stat-label">Users Served</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- ========================================
+         FEATURED TOOLS SECTION
+         ======================================== -->
+    <section class="featured-section" id="featured">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-header-left">
+                    <div class="section-icon">⭐</div>
+                    <div>
+                        <h2>Featured Tools</h2>
+                        <p>Most popular tools loved by our users</p>
+                    </div>
+                </div>
+                <a href="#all-tools" class="view-all-btn">View All →</a>
+            </div>
+            
+            <div class="tools-grid" id="featuredTools">
+                <!-- Featured tools will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- Ad Banner -->
+    <div class="ad-banner">
+        📢 Advertisement Space - 728x90
+    </div>
+    
+    <!-- ========================================
+         TRENDING TOOLS SECTION
+         ======================================== -->
+    <section class="trending-section" id="trending">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-header-left">
+                    <div class="section-icon">🔥</div>
+                    <div>
+                        <h2>Trending Now</h2>
+                        <p>Hot tools everyone is using right now</p>
+                    </div>
+                </div>
+                <a href="#all-tools" class="view-all-btn">View All →</a>
+            </div>
+            
+            <div class="tools-grid" id="trendingTools">
+                <!-- Trending tools will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- ========================================
+         RECENTLY ADDED SECTION
+         ======================================== -->
+    <section class="recent-section" id="recent">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-header-left">
+                    <div class="section-icon">✨</div>
+                    <div>
+                        <h2>Recently Added</h2>
+                        <p>Fresh tools just added to our collection</p>
+                    </div>
+                </div>
+                <a href="#all-tools" class="view-all-btn">View All →</a>
+            </div>
+            
+            <div class="tools-grid" id="recentTools">
+                <!-- Recent tools will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- ========================================
+         ALL TOOLS SECTION
+         ======================================== -->
+    <section class="tools-section" id="all-tools">
+        <div class="container">
+            <h2 class="section-title">All Tools</h2>
+            <p class="section-subtitle">Explore our complete collection of 150+ free tools</p>
+            
+            <div id="allCategories">
+                <!-- All categories will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- ========================================
+         FOOTER
+         ======================================== -->
+    <footer class="footer" id="about">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-brand-logo">
+                        <div class="footer-brand-logo-icon">🛠️</div>
+                        <span>ToolVerse</span>
+                    </div>
+                    <p>Your one-stop destination for free online tools. From academic utilities to business solutions, we've got everything you need to boost productivity.</p>
+                    <div class="footer-social">
+                        <a href="#" title="Twitter">🐦</a>
+                        <a href="#" title="Facebook">📘</a>
+                        <a href="#" title="Instagram">📷</a>
+                        <a href="#" title="LinkedIn">💼</a>
+                        <a href="#" title="YouTube">📺</a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Categories</h3>
+                    <div class="footer-links">
+                        <a href="#academic">🎓 Academic & Research</a>
+                        <a href="#students">📚 Student Tools</a>
+                        <a href="#teachers">👩‍🏫 Teacher Resources</a>
+                        <a href="#creators">🎥 Content Creation</a>
+                        <a href="#job-seekers">💼 Career Tools</a>
+                        <a href="#developers">🧑‍💻 Developer Utilities</a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <div class="footer-links">
+                        <a href="#featured">⭐ Featured Tools</a>
+                        <a href="#trending">🔥 Trending Now</a>
+                        <a href="#recent">✨ New Arrivals</a>
+                        <a href="#utilities">🛠️ Utilities</a>
+                        <a href="#all-tools">📋 All Tools</a>
+                    </div>
+                </div>
+                
+                <div class="footer-column" id="contact">
+                    <h3>Contact</h3>
+                    <div class="footer-links">
+                        <a href="mailto:hello@toolverse.com">📧 hello@toolverse.com</a>
+                        <a href="#">🌐 www.toolverse.com</a>
+                        <a href="#">📱 Submit Feedback</a>
+                        <a href="#">💡 Request a Tool</a>
+                        <a href="#">🤝 Partner With Us</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 ToolVerse. All rights reserved. Made with ❤️ for everyone.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- ========================================
+         FLOATING ELEMENTS
+         ======================================== -->
+    <div class="ai-assistant" id="aiAssistant" title="AI Assistant">🤖</div>
+    <button class="back-to-top" id="backToTop">↑</button>
+    
+    <!-- ========================================
+         JAVASCRIPT
+         ======================================== -->
+    <script>
+        // ========================================
+        // TOOL DATA
+        // ========================================
+        const toolsData = {
+            academic: {
+                icon: '🎓',
+                title: 'Academic / Researchers',
+                description: 'Powerful tools for academic research and studies',
+                tools: [
+                    { name: 'PDF to Word', icon: '📄', desc: 'Convert PDF documents to editable Word files', badges: ['popular'], uses: '50K+' },
+                    { name: 'Word to PDF', icon: '📝', desc: 'Convert Word documents to PDF format', badges: [], uses: '45K+' },
+                    { name: 'Citation Generator', icon: '📚', desc: 'Generate citations in APA, MLA, Chicago formats', badges: ['new'], uses: '30K+' },
+                    { name: 'Grammar Checker', icon: '✅', desc: 'Check and correct grammar errors instantly', badges: ['popular'], uses: '100K+' },
+                    { name: 'AI Notes Summarizer', icon: '📝', desc: 'Summarize long notes using AI', badges: ['trending', 'new'], uses: '25K+' },
+                    { name: 'Research Topic Generator', icon: '💡', desc: 'Generate research topics and ideas', badges: [], uses: '20K+' },
+                    { name: 'Plagiarism Checker', icon: '🔍', desc: 'Check content for plagiarism', badges: ['popular'], uses: '80K+' },
+                    { name: 'Handwriting to Text', icon: '✍️', desc: 'Convert handwritten notes to text', badges: ['new'], uses: '15K+' },
+                    { name: 'PDF Highlighter', icon: '🖍️', desc: 'Highlight and annotate PDFs online', badges: [], uses: '35K+' },
+                    { name: 'Flashcard Generator', icon: '🃏', desc: 'Create flashcards from your notes', badges: [], uses: '40K+' },
+                    { name: 'Quiz Generator from Notes', icon: '❓', desc: 'Generate quizzes from study notes', badges: ['new'], uses: '18K+' },
+                    { name: 'GPA/CGPA Calculator', icon: '📊', desc: 'Calculate your GPA and CGPA easily', badges: ['popular'], uses: '60K+' },
+                    { name: 'Study Timetable Generator', icon: '📅', desc: 'Create personalized study schedules', badges: [], uses: '28K+' },
+                    { name: 'Equation Solver', icon: '🧮', desc: 'Solve mathematical equations step by step', badges: [], uses: '35K+' },
+                    { name: 'Text-to-Speech Notes Reader', icon: '🔊', desc: 'Listen to your notes read aloud', badges: ['new'], uses: '22K+' }
+                ]
+            },
+            students: {
+                icon: '📚',
+                title: 'Students',
+                description: 'Essential tools for student success',
+                tools: [
+                    { name: 'Assignment Planner', icon: '📋', desc: 'Plan and track your assignments', badges: [], uses: '45K+' },
+                    { name: 'Study Timer', icon: '⏱️', desc: 'Pomodoro timer for focused study sessions', badges: ['popular'], uses: '90K+' },
+                    { name: 'Lecture Note Organizer', icon: '📓', desc: 'Organize lecture notes efficiently', badges: [], uses: '30K+' },
+                    { name: 'Exam Countdown', icon: '🗓️', desc: 'Count down to your important exams', badges: [], uses: '55K+' },
+                    { name: 'Attendance Tracker', icon: '✅', desc: 'Track class attendance easily', badges: [], uses: '25K+' },
+                    { name: 'AI Homework Helper', icon: '🤖', desc: 'Get help with homework using AI', badges: ['trending'], uses: '70K+' },
+                    { name: 'Past Question Organizer', icon: '📄', desc: 'Organize past exam questions', badges: [], uses: '20K+' },
+                    { name: 'Class Schedule Builder', icon: '📆', desc: 'Build your weekly class schedule', badges: [], uses: '40K+' },
+                    { name: 'Group Project Task Splitter', icon: '👥', desc: 'Split tasks for group projects', badges: ['new'], uses: '15K+' },
+                    { name: 'Simple Calculator', icon: '🧮', desc: 'Basic calculator for quick calculations', badges: [], uses: '100K+' },
+                    { name: 'Student CV Builder', icon: '📄', desc: 'Create professional student CVs', badges: [], uses: '35K+' },
+                    { name: 'Scholarship Finder', icon: '🎓', desc: 'Find scholarships for your studies', badges: [], uses: '28K+' },
+                    { name: 'Habit Tracker', icon: '🎯', desc: 'Build and track positive habits', badges: [], uses: '50K+' },
+                    { name: 'Motivational Quote Generator', icon: '💪', desc: 'Get daily motivational quotes', badges: [], uses: '40K+' }
+                ]
+            },
+            teachers: {
+                icon: '👩‍🏫',
+                title: 'Teachers / Educators',
+                description: 'Tools to empower teaching and learning',
+                tools: [
+                    { name: 'Lesson Plan Generator', icon: '📖', desc: 'Generate detailed lesson plans', badges: ['trending'], uses: '35K+' },
+                    { name: 'Quiz Creator', icon: '❓', desc: 'Create quizzes and assessments easily', badges: ['popular'], uses: '60K+' },
+                    { name: 'Attendance Sheet Generator', icon: '📋', desc: 'Generate attendance sheets for classes', badges: [], uses: '25K+' },
+                    { name: 'Report Card Comment Generator', icon: '📝', desc: 'Generate report card comments', badges: [], uses: '30K+' },
+                    { name: 'Worksheet Maker', icon: '📄', desc: 'Create custom worksheets', badges: [], uses: '35K+' },
+                    { name: 'MCQ Generator', icon: '✅', desc: 'Generate multiple choice questions', badges: ['new'], uses: '18K+' },
+                    { name: 'Rubric Generator', icon: '📊', desc: 'Create grading rubrics easily', badges: [], uses: '22K+' },
+                    { name: 'Student Performance Tracker', icon: '📈', desc: 'Track student performance over time', badges: [], uses: '20K+' },
+                    { name: 'Parent Email Generator', icon: '📧', desc: 'Generate emails to parents', badges: [], uses: '15K+' },
+                    { name: 'Seating Arrangement Tool', icon: '🪑', desc: 'Create classroom seating arrangements', badges: [], uses: '18K+' },
+                    { name: 'AI Teaching Assistant', icon: '🤖', desc: 'AI assistant for teaching tasks', badges: ['trending', 'new'], uses: '25K+' },
+                    { name: 'Homework Checker', icon: '✓', desc: 'Check homework assignments', badges: [], uses: '20K+' },
+                    { name: 'Presentation Slide Generator', icon: '📊', desc: 'Generate presentation slides', badges: [], uses: '28K+' }
+                ]
+            },
+            creators: {
+                icon: '🎥',
+                title: 'Content Creators',
+                description: 'Tools for content creation and social media',
+                tools: [
+                    { name: 'Caption Generator', icon: '✍️', desc: 'Generate engaging captions for posts', badges: ['trending'], uses: '120K+' },
+                    { name: 'Hashtag Generator', icon: '#️⃣', desc: 'Generate relevant hashtags', badges: ['popular'], uses: '150K+' },
+                    { name: 'YouTube Title Generator', icon: '📺', desc: 'Generate catchy YouTube titles', badges: [], uses: '80K+' },
+                    { name: 'Thumbnail Text Generator', icon: '🖼️', desc: 'Create text for video thumbnails', badges: [], uses: '60K+' },
+                    { name: 'Hook Generator', icon: '🎣', desc: 'Generate viral content hooks', badges: ['trending'], uses: '45K+' },
+                    { name: 'Script Generator', icon: '📝', desc: 'Generate video scripts', badges: ['new'], uses: '35K+' },
+                    { name: 'AI Content Idea Generator', icon: '💡', desc: 'Generate content ideas', badges: [], uses: '70K+' },
+                    { name: 'TikTok/Instagram Bio Generator', icon: '👤', desc: 'Generate social media bios', badges: [], uses: '90K+' },
+                    { name: 'Video Transcript Cleaner', icon: '📄', desc: 'Clean up video transcripts', badges: [], uses: '25K+' },
+                    { name: 'Subtitle Generator', icon: '🎬', desc: 'Generate subtitles for videos', badges: ['popular'], uses: '55K+' },
+                    { name: 'Background Remover', icon: '🖼️', desc: 'Remove image backgrounds', badges: ['popular'], uses: '100K+' },
+                    { name: 'Image Resizer', icon: '📐', desc: 'Resize images for any platform', badges: [], uses: '130K+' },
+                    { name: 'Video to GIF', icon: '🎞️', desc: 'Convert videos to GIFs', badges: [], uses: '40K+' },
+                    { name: 'Trend Finder', icon: '🔥', desc: 'Find trending topics', badges: [], uses: '50K+' },
+                    { name: 'Color Palette Generator', icon: '🎨', desc: 'Generate color palettes', badges: [], uses: '45K+' }
+                ]
+            },
+            jobSeekers: {
+                icon: '💼',
+                title: 'Job Seekers',
+                description: 'Tools to help you land your dream job',
+                tools: [
+                    { name: 'CV Builder', icon: '📄', desc: 'Create professional CVs', badges: ['popular'], uses: '150K+' },
+                    { name: 'AI CV Reviewer', icon: '🤖', desc: 'Get AI feedback on your CV', badges: ['trending'], uses: '60K+' },
+                    { name: 'Cover Letter Generator', icon: '✉️', desc: 'Generate cover letters', badges: [], uses: '80K+' },
+                    { name: 'LinkedIn Bio Generator', icon: '💼', desc: 'Generate LinkedIn bios', badges: [], uses: '70K+' },
+                    { name: 'Interview Question Practice', icon: '❓', desc: 'Practice interview questions', badges: [], uses: '55K+' },
+                    { name: 'Salary Calculator', icon: '💰', desc: 'Calculate salary expectations', badges: [], uses: '45K+' },
+                    { name: 'ATS Resume Checker', icon: '📋', desc: 'Check resume for ATS compatibility', badges: ['new'], uses: '30K+' },
+                    { name: 'Job Application Tracker', icon: '📊', desc: 'Track job applications', badges: [], uses: '40K+' },
+                    { name: 'Portfolio Website Generator', icon: '🌐', desc: 'Generate portfolio websites', badges: [], uses: '35K+' },
+                    { name: 'Application Email Generator', icon: '📧', desc: 'Generate application emails', badges: [], uses: '25K+' }
+                ]
+            },
+            developers: {
+                icon: '🧑‍💻',
+                title: 'Developers / Tech People',
+                description: 'Developer tools and utilities',
+                tools: [
+                    { name: 'JSON Formatter', icon: '{ }', desc: 'Format and validate JSON', badges: ['popular'], uses: '200K+' },
+                    { name: 'Password Generator', icon: '🔐', desc: 'Generate secure passwords', badges: ['popular'], uses: '300K+' },
+                    { name: 'QR Code Generator', icon: '📱', desc: 'Generate QR codes', badges: [], uses: '250K+' },
+                    { name: 'Regex Tester', icon: '🔍', desc: 'Test regular expressions', badges: [], uses: '80K+' },
+                    { name: 'API Tester', icon: '🌐', desc: 'Test API endpoints', badges: [], uses: '60K+' },
+                    { name: 'HTML/CSS Minifier', icon: '📝', desc: 'Minify HTML and CSS', badges: [], uses: '70K+' },
+                    { name: 'Image Compressor', icon: '🖼️', desc: 'Compress images efficiently', badges: [], uses: '180K+' },
+                    { name: 'Base64 Encoder/Decoder', icon: '🔡', desc: 'Encode and decode Base64', badges: [], uses: '90K+' },
+                    { name: 'Color Code Picker', icon: '🎨', desc: 'Pick and convert color codes', badges: [], uses: '120K+' },
+                    { name: 'Markdown Previewer', icon: '📝', desc: 'Preview Markdown content', badges: [], uses: '65K+' },
+                    { name: 'SQL Formatter', icon: '🗄️', desc: 'Format SQL queries', badges: [], uses: '40K+' },
+                    { name: 'Timestamp Converter', icon: '⏰', desc: 'Convert timestamps easily', badges: [], uses: '85K+' }
+                ]
+            },
+            business: {
+                icon: '🧑‍💼',
+                title: 'Business Owners / Entrepreneurs',
+                description: 'Business and entrepreneurship tools',
+                tools: [
+                    { name: 'Invoice Generator', icon: '📄', desc: 'Generate professional invoices', badges: ['popular'], uses: '100K+' },
+                    { name: 'Receipt Generator', icon: '🧾', desc: 'Generate receipts easily', badges: [], uses: '70K+' },
+                    { name: 'Profit Calculator', icon: '💰', desc: 'Calculate business profits', badges: [], uses: '55K+' },
+                    { name: 'Business Name Generator', icon: '💡', desc: 'Generate business name ideas', badges: ['trending'], uses: '80K+' },
+                    { name: 'Logo Maker', icon: '🎨', desc: 'Create logos online', badges: [], uses: '90K+' },
+                    { name: 'AI Business Plan Generator', icon: '📊', desc: 'Generate business plans using AI', badges: ['new'], uses: '25K+' },
+                    { name: 'Social Media Post Scheduler', icon: '📱', desc: 'Schedule social media posts', badges: [], uses: '45K+' },
+                    { name: 'Expense Tracker', icon: '💵', desc: 'Track business expenses', badges: [], uses: '60K+' },
+                    { name: 'QR Menu Generator', icon: '📱', desc: 'Generate QR menus', badges: [], uses: '35K+' },
+                    { name: 'Price Calculator', icon: '🔢', desc: 'Calculate product prices', badges: [], uses: '40K+' },
+                    { name: 'Customer Feedback Form Builder', icon: '📝', desc: 'Build feedback forms', badges: [], uses: '30K+' }
+                ]
+            },
+            designers: {
+                icon: '🎨',
+                title: 'Designers',
+                description: 'Creative tools for designers',
+                tools: [
+                    { name: 'Color Palette Generator', icon: '🎨', desc: 'Generate beautiful color palettes', badges: ['popular'], uses: '150K+' },
+                    { name: 'Font Pairing Tool', icon: '🔤', desc: 'Find perfect font combinations', badges: [], uses: '70K+' },
+                    { name: 'PNG to SVG Converter', icon: '🖼️', desc: 'Convert PNG to SVG format', badges: [], uses: '55K+' },
+                    { name: 'Image Upscaler', icon: '📐', desc: 'Upscale images without quality loss', badges: [], uses: '80K+' },
+                    { name: 'Mockup Generator', icon: '📱', desc: 'Generate product mockups', badges: [], uses: '65K+' },
+                    { name: 'Background Remover', icon: '🖼️', desc: 'Remove image backgrounds', badges: ['popular'], uses: '200K+' },
+                    { name: 'Blur Image Tool', icon: '🌫️', desc: 'Add blur effects to images', badges: [], uses: '35K+' },
+                    { name: 'Gradient Generator', icon: '🌈', desc: 'Generate CSS gradients', badges: [], uses: '90K+' },
+                    { name: 'AI Logo Idea Generator', icon: '💡', desc: 'Generate logo ideas with AI', badges: ['new'], uses: '20K+' },
+                    { name: 'Instagram Post Size Converter', icon: '📱', desc: 'Convert images for Instagram', badges: [], uses: '75K+' }
+                ]
+            },
+            socialMedia: {
+                icon: '📱',
+                title: 'Social Media Managers',
+                description: 'Social media marketing and management tools',
+                tools: [
+                    { name: 'Caption Rewriter', icon: '✍️', desc: 'Rewrite captions for variety', badges: [], uses: '45K+' },
+                    { name: 'Content Calendar Generator', icon: '📅', desc: 'Generate content calendars', badges: ['trending'], uses: '60K+' },
+                    { name: 'Engagement Rate Calculator', icon: '📊', desc: 'Calculate engagement rates', badges: [], uses: '50K+' },
+                    { name: 'AI Comment Reply Generator', icon: '💬', desc: 'Generate comment replies', badges: ['new'], uses: '25K+' },
+                    { name: 'Viral Hook Generator', icon: '🎣', desc: 'Generate viral content hooks', badges: ['trending'], uses: '40K+' },
+                    { name: 'Carousel Text Generator', icon: '🎠', desc: 'Generate carousel post text', badges: [], uses: '35K+' },
+                    { name: 'Tweet Thread Generator', icon: '🐦', desc: 'Generate Twitter threads', badges: [], uses: '55K+' },
+                    { name: 'Hashtag Analyzer', icon: '#️⃣', desc: 'Analyze hashtag performance', badges: [], uses: '30K+' },
+                    { name: 'CTA Generator', icon: '📢', desc: 'Generate effective CTAs', badges: [], uses: '28K+' },
+                    { name: 'Post Idea Bank', icon: '💡', desc: 'Get social media post ideas', badges: [], uses: '42K+' }
+                ]
+            },
+            ministries: {
+                icon: '🕌',
+                title: 'Churches / Ministries',
+                description: 'Tools for churches and religious organizations',
+                tools: [
+                    { name: 'Sermon Title Generator', icon: '📖', desc: 'Generate sermon titles', badges: [], uses: '20K+' },
+                    { name: 'Bible Verse Finder', icon: '✝️', desc: 'Find Bible verses quickly', badges: ['popular'], uses: '50K+' },
+                    { name: 'Prayer Point Generator', icon: '🙏', desc: 'Generate prayer points', badges: [], uses: '25K+' },
+                    { name: 'Church Flyer Text Generator', icon: '📄', desc: 'Generate church flyer text', badges: [], uses: '15K+' },
+                    { name: 'Event Announcement Generator', icon: '📢', desc: 'Generate event announcements', badges: [], uses: '18K+' },
+                    { name: 'Daily Devotional Generator', icon: '📖', desc: 'Generate daily devotionals', badges: ['new'], uses: '22K+' },
+                    { name: 'Bible Quiz Generator', icon: '❓', desc: 'Generate Bible quizzes', badges: [], uses: '20K+' },
+                    { name: 'Scripture Image Creator', icon: '🖼️', desc: 'Create scripture images', badges: [], uses: '25K+' }
+                ]
+            },
+            finance: {
+                icon: '💰',
+                title: 'Finance / Everyday Money Tools',
+                description: 'Personal finance and money management tools',
+                tools: [
+                    { name: 'Loan Calculator', icon: '🏦', desc: 'Calculate loan payments', badges: ['popular'], uses: '100K+' },
+                    { name: 'Savings Calculator', icon: '🐖', desc: 'Calculate savings growth', badges: [], uses: '70K+' },
+                    { name: 'Currency Converter', icon: '💱', desc: 'Convert currencies', badges: ['popular'], uses: '200K+' },
+                    { name: 'Expense Splitter', icon: '💵', desc: 'Split expenses with friends', badges: [], uses: '80K+' },
+                    { name: 'Budget Planner', icon: '📊', desc: 'Plan your budget', badges: [], uses: '120K+' },
+                    { name: 'Tax Calculator', icon: '🧾', desc: 'Calculate taxes', badges: [], uses: '90K+' },
+                    { name: 'Investment Return Calculator', icon: '📈', desc: 'Calculate investment returns', badges: [], uses: '60K+' },
+                    { name: 'Daily Expense Tracker', icon: '💰', desc: 'Track daily expenses', badges: [], uses: '75K+' }
+                ]
+            },
+            utilities: {
+                icon: '🛠️',
+                title: 'Everyday Utilities',
+                description: 'Useful utilities for everyday tasks',
+                tools: [
+                    { name: 'Image to PDF', icon: '🖼️', desc: 'Convert images to PDF', badges: ['popular'], uses: '180K+' },
+                    { name: 'PDF Merger', icon: '📄', desc: 'Merge multiple PDFs', badges: ['popular'], uses: '150K+' },
+                    { name: 'PDF Splitter', icon: '✂️', desc: 'Split PDF documents', badges: [], uses: '100K+' },
+                    { name: 'File Compressor', icon: '📦', desc: 'Compress files online', badges: [], uses: '120K+' },
+                    { name: 'Unit Converter', icon: '📏', desc: 'Convert between units', badges: [], uses: '200K+' },
+                    { name: 'QR Code Generator', icon: '📱', desc: 'Generate QR codes', badges: ['popular'], uses: '250K+' },
+                    { name: 'Barcode Generator', icon: '📊', desc: 'Generate barcodes', badges: [], uses: '60K+' },
+                    { name: 'Text Counter', icon: '📝', desc: 'Count words and characters', badges: [], uses: '150K+' },
+                    { name: 'Random Password Generator', icon: '🔐', desc: 'Generate random passwords', badges: ['popular'], uses: '300K+' },
+                    { name: 'URL Shortener', icon: '🔗', desc: 'Shorten long URLs', badges: [], uses: '180K+' },
+                    { name: 'Text Case Converter', icon: '🔤', desc: 'Convert text case', badges: [], uses: '90K+' },
+                    { name: 'File Rename Tool', icon: '📄', desc: 'Bulk rename files', badges: [], uses: '45K+' }
+                ]
+            }
+        };
+        
+        // ========================================
+        // DOM ELEMENTS
+        // ========================================
+        const navbar = document.getElementById('navbar');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarCategories = document.getElementById('sidebarCategories');
+        const mainSearch = document.getElementById('mainSearch');
+        const sidebarSearch = document.getElementById('sidebarSearch');
+        const searchResults = document.getElementById('searchResults');
+        const backToTop = document.getElementById('backToTop');
+        const quickCategoryBtns = document.querySelectorAll('.quick-category-btn');
+        
+        // ========================================
+        // INITIALIZE
+        // ========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeSidebar();
+            renderFeaturedTools();
+            renderTrendingTools();
+            renderRecentTools();
+            renderAllCategories();
+            initializeAnimations();
+        });
+        
+        // ========================================
+        // SIDEBAR
+        // ========================================
+        function initializeSidebar() {
+            let html = '';
+            
+            for (const [categoryKey, category] of Object.entries(toolsData)) {
+                html += `
+                    <div class="sidebar-category" data-category="${categoryKey}">
+                        <div class="sidebar-category-header">
+                            <div class="sidebar-category-title">
+                                <span class="sidebar-category-icon">${category.icon}</span>
+                                <span>${category.title}</span>
+                            </div>
+                            <span class="sidebar-category-arrow">▼</span>
+                        </div>
+                        <div class="sidebar-category-tools">
+                            ${category.tools.map(tool => `
+                                <a href="#${categoryKey}" class="sidebar-tool-link" data-tool="${tool.name}">
+                                    ${tool.name}
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            sidebarCategories.innerHTML = html;
+            
+            // Add click handlers for sidebar categories
+            document.querySelectorAll('.sidebar-category-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    header.parentElement.classList.toggle('expanded');
+                });
+            });
+        }
+        
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            sidebarToggle.textContent = sidebar.classList.contains('open') ? '✕' : '☰';
+        });
+        
+        // ========================================
+        // MOBILE MENU
+        // ========================================
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        });
+        
+        // Close mobile menu on link click
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuBtn.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        
+        // ========================================
+        // NAVBAR SCROLL EFFECT
+        // ========================================
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            // Back to top button visibility
+            if (window.scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+        
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // ========================================
+        // SEARCH FUNCTIONALITY
+        // ========================================
+        function performSearch(query) {
+            if (!query || query.length < 2) {
+                searchResults.classList.remove('active');
+                return;
+            }
+            
+            query = query.toLowerCase();
+            let results = [];
+            
+            for (const [categoryKey, category] of Object.entries(toolsData)) {
+                for (const tool of category.tools) {
+                    if (
+                        tool.name.toLowerCase().includes(query) ||
+                        tool.desc.toLowerCase().includes(query) ||
+                        category.title.toLowerCase().includes(query)
+                    ) {
+                        results.push({
+                            ...tool,
+                            category: category.title,
+                            categoryKey: categoryKey,
+                            categoryIcon: category.icon
+                        });
+                    }
+                }
+            }
+            
+            if (results.length === 0) {
+                searchResults.innerHTML = '<div class="no-results">No tools found. Try a different search term.</div>';
+            } else {
+                searchResults.innerHTML = results.slice(0, 10).map(result => `
+                    <div class="search-result-item" data-category="${result.categoryKey}" data-tool="${result.name}">
+                        <h4>${result.categoryIcon} ${result.name}</h4>
+                        <p>${result.desc}</p>
+                        <span class="category">${result.category}</span>
+                    </div>
+                `).join('');
+                
+                // Add click handlers to search results
+                document.querySelectorAll('.search-result-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const category = item.dataset.category;
+                        const tool = item.dataset.tool;
+                        document.getElementById(`category-${category}`)?.scrollIntoView({ behavior: 'smooth' });
+                        searchResults.classList.remove('active');
+                        mainSearch.value = '';
+                        
+                        // Highlight the tool card
+                        setTimeout(() => {
+                            const toolCard = document.querySelector(`[data-tool-name="${tool}"]`);
+                            if (toolCard) {
+                                toolCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                toolCard.style.animation = 'pulse 0.5s ease';
+                            }
+                        }, 500);
+                    });
+                });
+            }
+            
+            searchResults.classList.add('active');
+        }
+        
+        mainSearch.addEventListener('input', (e) => {
+            performSearch(e.target.value);
+        });
+        
+        sidebarSearch.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            
+            // Filter sidebar tools
+            document.querySelectorAll('.sidebar-tool-link').forEach(link => {
+                const toolName = link.textContent.toLowerCase();
+                if (toolName.includes(query)) {
+                    link.style.display = 'block';
+                } else {
+                    link.style.display = 'none';
+                }
+            });
+            
+            // Expand categories that have matching tools
+            document.querySelectorAll('.sidebar-category').forEach(category => {
+                const visibleTools = category.querySelectorAll('.sidebar-tool-link[style="display: block;"], .sidebar-tool-link:not([style*="display"])');
+                if (visibleTools.length > 0 || query === '') {
+                    category.style.display = 'block';
+                    if (query !== '') {
+                        category.classList.add('expanded');
+                    }
+                } else {
+                    category.style.display = 'none';
+                }
+            });
+        });
+        
+        // Close search results when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-container')) {
+                searchResults.classList.remove('active');
+            }
+        });
+        
+        // ========================================
+        // QUICK CATEGORY FILTERS
+        // ========================================
+        quickCategoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                quickCategoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const category = btn.dataset.category;
+                
+                if (category === 'all') {
+                    document.querySelectorAll('.category-section').forEach(section => {
+                        section.style.display = 'block';
+                    });
+                } else {
+                    document.querySelectorAll('.category-section').forEach(section => {
+                        section.style.display = section.id === `category-${category}` ? 'block' : 'none';
+                    });
+                }
+                
+                // Scroll to tools section
+                document.getElementById('all-tools').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+        
+        // ========================================
+        // TOOL CARD RENDERING
+        // ========================================
+        function createToolCard(tool, categoryKey) {
+            const badges = tool.badges.map(badge => {
+                if (badge === 'new') return '<span class="badge badge-new">New</span>';
+                if (badge === 'trending') return '<span class="badge badge-trending">Trending</span>';
+                if (badge === 'popular') return '<span class="badge badge-popular">Popular</span>';
+                return '';
+            }).join('');
+            
+            return `
+                <div class="tool-card fade-in" data-tool-name="${tool.name}" data-category="${categoryKey}">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">${tool.icon}</div>
+                        <div class="tool-card-badges">${badges}</div>
+                    </div>
+                    <h3 class="tool-card-title">${tool.name}</h3>
+                    <p class="tool-card-description">${tool.desc}</p>
+                    <div class="tool-card-footer">
+                        <div class="tool-card-meta">
+                            <span>👥 ${tool.uses}</span>
+                        </div>
+                        <a href="#" class="tool-card-btn">Open Tool →</a>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function renderFeaturedTools() {
+            const featured = [];
+            
+            // Get popular tools from all categories
+            for (const [categoryKey, category] of Object.entries(toolsData)) {
+                category.tools.forEach(tool => {
+                    if (tool.badges.includes('popular')) {
+                        featured.push({ ...tool, categoryKey, categoryIcon: category.icon });
+                    }
+                });
+            }
+            
+            // Render first 8 featured tools
+            document.getElementById('featuredTools').innerHTML = featured.slice(0, 8).map(tool => createToolCard(tool, tool.categoryKey)).join('');
+        }
+        
+        function renderTrendingTools() {
+            const trending = [];
+            
+            // Get trending tools from all categories
+            for (const [categoryKey, category] of Object.entries(toolsData)) {
+                category.tools.forEach(tool => {
+                    if (tool.badges.includes('trending')) {
+                        trending.push({ ...tool, categoryKey, categoryIcon: category.icon });
+                    }
+                });
+            }
+            
+            // Render trending tools
+            document.getElementById('trendingTools').innerHTML = trending.map(tool => createToolCard(tool, tool.categoryKey)).join('');
+        }
+        
+        function renderRecentTools() {
+            const recent = [];
+            
+            // Get new tools from all categories
+            for (const [categoryKey, category] of Object.entries(toolsData)) {
+                category.tools.forEach(tool => {
+                    if (tool.badges.includes('new')) {
+                        recent.push({ ...tool, categoryKey, categoryIcon: category.icon });
+                    }
+                });
+            }
+            
+            // Render recent tools
+            document.getElementById('recentTools').innerHTML = recent.slice(0, 8).map(tool => createToolCard(tool, tool.categoryKey)).join('');
+        }
+        
+        function renderAllCategories() {
+            let html = '';
+            
+            for (const [categoryKey, category] of Object.entries(toolsData)) {
+                html += `
+                    <section class="category-section" id="category-${categoryKey}">
+                        <div class="category-header">
+                            <div class="category-icon">${category.icon}</div>
+                            <div class="category-info">
+                                <h2>${category.title}</h2>
+                                <p>${category.description}</p>
+                            </div>
+                            <div class="category-tools-count">${category.tools.length} Tools</div>
+                        </div>
+                        <div class="tools-grid">
+                            ${category.tools.map(tool => createToolCard(tool, categoryKey)).join('')}
+                        </div>
+                    </section>
+                `;
+            }
+            
+            document.getElementById('allCategories').innerHTML = html;
+        }
+        
+        // ========================================
+        // SCROLL ANIMATIONS
+        // ========================================
+        function initializeAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all fade-in elements
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+        
+        // ========================================
+        // AI ASSISTANT PLACEHOLDER
+        // ========================================
+        document.getElementById('aiAssistant').addEventListener('click', () => {
+            alert('🤖 AI Assistant Coming Soon!\n\nWe\'re working on an intelligent AI assistant to help you find the perfect tools for your needs. Stay tuned!');
+        });
+        
+        // ========================================
+        // SMOOTH SCROLL FOR ANCHOR LINKS
+        // ========================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                
+                // Close mobile menu if open
+                mobileMenuBtn.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+                
+                // Close sidebar if open
+                sidebar.classList.remove('open');
+                sidebarToggle.textContent = '☰';
+            });
+        });
+        
+        // ========================================
+        // CONSOLE WELCOME MESSAGE
+        // ========================================
+        console.log('%c🛠️ ToolVerse', 'font-size: 24px; font-weight: bold; color: #8b5cf6;');
+        console.log('%cSolve Everyday Problems with Smart Tools', 'font-size: 14px; color: #a1a1aa;');
+        console.log('%cMade with ❤️ for everyone', 'font-size: 12px; color: #71717a;');
+    </script>
+</body>
+</html>
