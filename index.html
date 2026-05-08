@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-   <style>
+  <style>
         :root {
             --bg-primary: #0a0a0f;
             --bg-secondary: #12121a;
@@ -102,7 +102,7 @@
         .sidebar-tool-link { display: block; padding: 0.5rem 1rem 0.5rem 2.75rem; color: var(--text-secondary); font-size: 0.8rem; border-radius: 8px; text-decoration: none; cursor: pointer; }
         .sidebar-tool-link:hover { color: var(--text-primary); background: var(--glass-hover); }
         
-        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 120px 20px 80px; position: relative; overflow: hidden; }
+       .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 120px 20px 80px; position: relative; overflow: hidden; }
         .hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.1), transparent 50%), radial-gradient(circle at 80% 20%, rgba(167, 139, 250, 0.08), transparent 50%); animation: heroGlow 20s ease-in-out infinite; }
         @keyframes heroGlow { 0%, 100% { transform: translate(0, 0); } 33% { transform: translate(2%, 2%); } 66% { transform: translate(-2%, -2%); } }
         .hero-content { text-align: center; max-width: 900px; position: relative; z-index: 1; }
@@ -122,87 +122,6 @@
         .search-results.active { display: block; }
         .search-result-item { padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border); cursor: pointer; }
         .search-result-item:hover { background: var(--glass-hover); }
-        
-        /* ========== QUICK CATEGORIES - FIXED WITH PROPER BOXES ========== */
-        .quick-categories {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
-            margin: 2rem 0 2.5rem;
-            padding: 0.5rem;
-        }
-        
-        .quick-category-btn {
-            padding: 0.85rem 1.8rem;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            color: #a1a1aa;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-family: inherit;
-        }
-        
-        .quick-category-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #8b5cf6;
-            color: white;
-            transform: translateY(-2px);
-        }
-        
-        .quick-category-btn.active {
-            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
-            border-color: transparent;
-            color: white;
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
-        }
-        
-        /* ========== HERO STATS - FIXED WITH PROPER BOXES ========== */
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 4rem;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-            padding: 1.5rem 2.5rem;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border-radius: 60px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            max-width: 550px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .hero-stat {
-            text-align: center;
-            padding: 0.5rem 1rem;
-        }
-        
-        .hero-stat-value {
-            font-size: 2.2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.5px;
-        }
-        
-        .hero-stat-label {
-            color: #71717a;
-            font-size: 0.8rem;
-            font-weight: 500;
-            margin-top: 0.3rem;
-            letter-spacing: 0.5px;
-        }
         
         /* Tool Cards */
         .tools-section { padding: 80px 0; }
@@ -266,32 +185,11 @@
         
         /* Responsive */
         @media (max-width: 992px) { .navbar-nav { display: none; } .mobile-menu-btn { display: flex; } .dropdown-menu { min-width: 100%; left: 0; transform: none; } .footer-grid { grid-template-columns: 1fr; } }
-        
-        @media (max-width: 768px) {
-            .tools-grid { grid-template-columns: 1fr; }
-            .category-header { flex-direction: column; align-items: flex-start; }
-            .category-tools-count { margin-left: 0; }
-            .ai-assistant { right: 20px; width: 50px; height: 50px; font-size: 1.5rem; }
-            .back-to-top { right: 80px; }
-            /* Quick categories responsive */
-            .quick-categories { gap: 0.6rem; }
-            .quick-category-btn { padding: 0.6rem 1.2rem; font-size: 0.75rem; gap: 0.4rem; }
-            /* Hero stats responsive */
-            .hero-stats { gap: 1.5rem; padding: 1rem 1.5rem; border-radius: 40px; max-width: 400px; }
-            .hero-stat-value { font-size: 1.6rem; }
-            .hero-stat-label { font-size: 0.7rem; }
-        }
-        
-        @media (max-width: 480px) {
-            .quick-categories { gap: 0.5rem; }
-            .quick-category-btn { padding: 0.5rem 1rem; font-size: 0.7rem; }
-            .hero-stats { gap: 1rem; padding: 0.8rem 1rem; max-width: 320px; }
-            .hero-stat-value { font-size: 1.3rem; }
-        }
-        
+        @media (max-width: 768px) { .tools-grid { grid-template-columns: 1fr; } .category-header { flex-direction: column; align-items: flex-start; } .category-tools-count { margin-left: 0; } .ai-assistant { right: 20px; width: 50px; height: 50px; font-size: 1.5rem; } .back-to-top { right: 80px; } }
         .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
     </style>
+
 </head>
 <body>
 
